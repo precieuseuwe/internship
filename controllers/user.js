@@ -34,22 +34,19 @@ export const register = async (req, res) => {
 
 
 export const getProfile = async (req, res) => {
-    if (req.body) {
-        try {
-            const users = await User.find({ username: "Test" })
-            if (users) {
-                res.status(200).json({ error: "Fetching user successful" });
-                console.log(users)
-            }
-        } catch (error) {
-            console.log(error)
-            res.status(500).json({ eror: "Internal server error" });
-        }
-    } else {
-        console.log("No user profiles found")
+    try {
+      const users = await User.find({});
+      if (users.length > 0) {
+        res.status(200).json(users); // send actual data
+      } else {
+        res.status(404).json({ message: "No users found" });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
     }
-
-}
+  };
+  
 
 //Create a login 
 export const login = async (req, res) => {
